@@ -1,0 +1,277 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "id": "d59ccffd",
+      "metadata": {
+        "id": "d59ccffd"
+      },
+      "source": [
+        "# In-Class Assignment — Data Preprocessing & Cleaning (Text)  \n",
+        "**Time:** 20 minutes  |  **Points:** 10  \n",
+        "\n",
+        "## Instructions\n",
+        "- This is an individual in-class assignment.  \n",
+        "- Write your code **inside each answer cell**.  \n",
+        "- Print the required outputs.  \n",
+        "- Submit your GitHub/Colab link as instructed by the instructor.\n",
+        "\n",
+        "\n",
+        "You are given a small dataset of customer support messages as a **TAB-separated text file**:  \n",
+        "- `support_messages.txt`\n",
+        "\n",
+        "You will download this file from **Canvas** and upload it to your **Google Colab** notebook.\n",
+        "\n",
+        "**How to upload it to your Google Colab notebook?**\n",
+        "\n",
+        "1. Download `support_messages.txt` from Canvas.\n",
+        "3. In **the left sidebar**, click the **Files** icon (folder).  \n",
+        "4. Click **Upload** and select `support_messages.txt`.\n",
+        "\n",
+        "6. RightAfter uploading, the file will appear in the Colab file list on the left.\n",
+        "\n",
+        "6. Right-click the file, copy its path, and paste it into the FILE_PATH variable in Q1.\n",
+        "\n",
+        "7. Run Q1 to load the dataset.\n",
+        "\n",
+        "\n",
+        "\n",
+        "> Important: Keep the file name exactly as `support_messages.txt`.\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "id": "4b060c82",
+      "metadata": {
+        "id": "4b060c82"
+      },
+      "source": [
+        "## Questions (Total = 10 points)\n",
+        "\n",
+        "### Q1 (1 point) — Load the dataset\n",
+        "Load the TAB-separated file into a pandas DataFrame with columns: `id`, `message`.  \n",
+        "Print: **(a)** `df.shape`, **(b)** `df.head(3)`.\n",
+        "\n",
+        "### Q2 (3 points) — Descriptive columns\n",
+        "Add these columns for each message and print the full DataFrame:\n",
+        "- `word_count`: number of words  \n",
+        "- `char_count`: number of characters  \n",
+        "- `num_count`: number of digits (0–9)  \n",
+        "- `upper_word_count`: number of ALL-CAPS words (e.g., `\"WHY\"`, `\"DAMAGED\"`)  \n",
+        "\n",
+        "### Q3 (3 points) — Clean text\n",
+        "Build a `clean_text(text)` function and create a new column `clean` with these steps **in order**:\n",
+        "1) lowercase  \n",
+        "2) remove punctuation/symbols (keep letters/numbers/spaces)  \n",
+        "3) remove English stopwords (use **nltk** or **sklearn** list)  \n",
+        "4) remove extra spaces  \n",
+        "\n",
+        "Print the **original** message and **clean** version for rows `id=1` and `id=4`.\n",
+        "\n",
+        "### Q4 (2 points) — Regex extraction\n",
+        "Using RegEx, extract and create two new columns:\n",
+        "- `order_id`: first occurrence of pattern `ORD-####` (case-insensitive; `ord-1060` is valid)  \n",
+        "- `email`: first email address if present (otherwise `None`/`NaN`)  \n",
+        "\n",
+        "Print: `id`, `order_id`, `email` for all rows.\n",
+        "\n",
+        "### Q5 (1 point) — TF-IDF keywords\n",
+        "Using the `clean` column, compute **TF-IDF** for the messages and print the **top 5 keywords** with the highest **average TF-IDF** across documents.\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "id": "4d5ab696",
+      "metadata": {
+        "id": "4d5ab696"
+      },
+      "outputs": [],
+      "source": [
+        "# Setup (run this cell first)\n",
+        "import re\n",
+        "import pandas as pd\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "id": "98307e5e",
+      "metadata": {
+        "id": "98307e5e"
+      },
+      "source": [
+        "## Q1 (1 point) — Answer below"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "id": "3c4b8a8c",
+      "metadata": {
+        "id": "3c4b8a8c"
+      },
+      "outputs": [],
+      "source": [
+        "# Q1 — ANSWER CELL\n",
+        "FILE_PATH = \"Replace this with the file path you copied\"\n",
+        "\n",
+        "# TODO: load the TAB-separated file into df\n",
+        "# Hint: pd.read_csv(FILE_PATH, sep=\"\\t\")\n",
+        "df = None\n",
+        "\n",
+        "# TODO: print df.shape and df.head(3)\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "id": "97eb3845",
+      "metadata": {
+        "id": "97eb3845"
+      },
+      "source": [
+        "## Q2 (3 points) — Answer below"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "id": "37d972dc",
+      "metadata": {
+        "id": "37d972dc"
+      },
+      "outputs": [],
+      "source": [
+        "# Q2 — ANSWER CELL\n",
+        "# TODO: create word_count, char_count, num_count, upper_word_count\n",
+        "# Hint for digits: df[\"message\"].str.count(r\"\\d\")\n",
+        "# Hint for ALL-CAPS words: count tokens where token.isupper()\n",
+        "\n",
+        "# TODO: display/print the full DataFrame\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "id": "b289863b",
+      "metadata": {
+        "id": "b289863b"
+      },
+      "source": [
+        "## Q3 (3 points) — Answer below"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "id": "479efbe4",
+      "metadata": {
+        "id": "479efbe4"
+      },
+      "outputs": [],
+      "source": [
+        "# Q3 — ANSWER CELL\n",
+        "# Option A (sklearn stopwords):\n",
+        "# from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS\n",
+        "# STOPWORDS = set(ENGLISH_STOP_WORDS)\n",
+        "\n",
+        "# Option B (nltk stopwords):\n",
+        "# import nltk\n",
+        "# nltk.download(\"stopwords\")\n",
+        "# from nltk.corpus import stopwords\n",
+        "# STOPWORDS = set(stopwords.words(\"english\"))\n",
+        "\n",
+        "def clean_text(text: str) -> str:\n",
+        "    # TODO: implement steps 1–4 in order\n",
+        "    return str(text)\n",
+        "\n",
+        "# TODO: create df[\"clean\"] using clean_text\n",
+        "# TODO: print original and clean for id=1 and id=4\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "id": "40778881",
+      "metadata": {
+        "id": "40778881"
+      },
+      "source": [
+        "## Q4 (2 points) — Answer below"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "id": "9bcd6e3b",
+      "metadata": {
+        "id": "9bcd6e3b"
+      },
+      "outputs": [],
+      "source": [
+        "# Q4 — ANSWER CELL\n",
+        "# order_id pattern: r\"ORD-\\d{4}\" with re.IGNORECASE\n",
+        "# email pattern (simple): r\"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\"\n",
+        "\n",
+        "# TODO: create df[\"order_id\"] and df[\"email\"]\n",
+        "# TODO: print/display df[[\"id\", \"order_id\", \"email\"]]\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "id": "e9417594",
+      "metadata": {
+        "id": "e9417594"
+      },
+      "source": [
+        "## Q5 (1 point) — Answer below"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "id": "77b7114b",
+      "metadata": {
+        "id": "77b7114b"
+      },
+      "outputs": [],
+      "source": [
+        "# Q5 — ANSWER CELL\n",
+        "# Hint: from sklearn.feature_extraction.text import TfidfVectorizer\n",
+        "# 1) fit TF-IDF on df[\"clean\"]\n",
+        "# 2) compute average TF-IDF per term across documents\n",
+        "# 3) print top 5 terms + their average scores\n",
+        "\n",
+        "# TODO\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "id": "e7f2c975",
+      "metadata": {
+        "id": "e7f2c975"
+      },
+      "source": [
+        "## Grading Checklist\n",
+        "- Q1: correct load + prints  \n",
+        "- Q2: correct counts  \n",
+        "- Q3: cleaning follows the required order + prints for id=1 and id=4  \n",
+        "- Q4: regex extraction works (case-insensitive `ORD-####` and emails)  \n",
+        "- Q5: prints 5 keywords + their scores (rounding is fine)\n"
+      ]
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "display_name": "Python 3",
+      "language": "python",
+      "name": "python3"
+    },
+    "language_info": {
+      "name": "python",
+      "version": "3.x"
+    },
+    "colab": {
+      "provenance": []
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}
